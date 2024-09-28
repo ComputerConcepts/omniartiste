@@ -17,3 +17,6 @@ def contact(request):
 
 def sitemap(request):
     return HttpResponse(open('templates/sitemap.xml').read(), content_type='text/xml')
+
+def events(request):
+    return render(request, "events.html")
