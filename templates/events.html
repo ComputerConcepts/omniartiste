@@ -72,7 +72,7 @@
         }
 
         nav ul li {
-            margin: 0 10px;
+            margin: 0 15px;
         }
 
         nav ul li a {
@@ -91,10 +91,10 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             padding: 40px;
-            width: 100%; /* Make the white box full width */
+            width: 100%; /* Full width */
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            max-width: 1200px; /* Keep a max width for readability */
+            max-width: 1200px; /* Keep the box at a max-width for readability */
             margin: 40px auto;
         }
 
@@ -147,6 +147,11 @@
             justify-content: center;
             gap: 10px;
         }
+
+        /* Add margin between rows */
+        .row.mb-5 {
+            margin-bottom: 40px; /* Add spacing between rows */
+        }
     </style>
 </head>
 <body>
@@ -155,19 +160,17 @@
             <div class="logo">
                 <img src="{% static 'images/logo.jpg' %}" alt="Omni Artiste Logo">
             </div>
-            <h1 style="font-weight: bold;">Upcoming Events</h1>
+            <h1>Upcoming Events</h1>
         </header>
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
-                <li><a href="{% url 'events' %}">Events</a></li>
             </ul>
         </nav>
         <main>
             <div class="content-box">
-                <!-- First row of events -->
                 <div class="row mb-5">
                     <!-- Event 1 -->
                     <div class="col-md-4 d-flex">
@@ -209,8 +212,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Second row of events -->
                 <div class="row">
                     <!-- Event 4 -->
                     <div class="col-md-4 d-flex">
@@ -255,6 +256,5 @@
             </div>
         </main>
     </div>
-
-    <!-- Include Bootstrap JS -->
-    <script src="
+</body>
+</html>
