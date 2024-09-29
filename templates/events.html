@@ -13,16 +13,14 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
+            min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             background-color: #D4AF37;
             color: #000;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        .container-fluid {
+            padding: 0;
         }
 
         header {
@@ -36,31 +34,33 @@
         }
 
         .logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-right: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Added to ensure the image doesn't overflow the circle */
+}
 
         .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    width: 100%; /* Make the image fill the circle */
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire area */
+}
 
         h1 {
             margin: 0;
             font-size: 2.5em;
             letter-spacing: 2px;
+            font-weight: bold;
         }
 
         nav {
             background-color: rgba(0, 0, 0, 0.8);
             padding: 10px 0;
+            width: 100%;
         }
 
         nav ul {
@@ -86,15 +86,14 @@
             color: #FFF;
         }
 
-        /* White box containing all content */
         .content-box {
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             padding: 40px;
-            width: 100%; /* Full width */
+            width: 100%;
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            max-width: 1200px; /* Keep the box at a max-width for readability */
+            max-width: 1200px;
             margin: 40px auto;
         }
 
@@ -123,7 +122,6 @@
             font-weight: bold;
         }
 
-        /* Button styling */
         .cta-button {
             background-color: #000;
             color: #D4AF37;
@@ -141,26 +139,30 @@
             color: #000;
         }
 
-        /* Make sure the buttons are small and aligned */
         .btn-container {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
 
-        /* Add margin between rows */
-        .row.mb-5 {
-            margin-bottom: 40px; /* Add spacing between rows */
+        .row {
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .content-box {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <header>
             <div class="logo">
-                <img src="{% static 'images/logo.jpg' %}" alt="Omni Artiste Logo">
+                <img src="{% static 'images/logo.jpg' %}">
             </div>
-            <h1 style="font-weight: bold;">Upcoming Events</h1>
+            <h1>Omni Artiste</h1>
         </header>
         <nav>
             <ul>
@@ -172,9 +174,9 @@
         </nav>
         <main>
             <div class="content-box">
-                <div class="row mb-5">
+                <div class="row">
                     <!-- Event 1 -->
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-4 mb-4">
                         <div class="card">
                             <h3 class="card-title">Art and Soul Exhibition</h3>
                             <p class="card-text">Join us for a soulful night celebrating African American artistry with live performances and exhibitions.</p>
@@ -187,7 +189,7 @@
                         </div>
                     </div>
                     <!-- Event 2 -->
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-4 mb-4">
                         <div class="card">
                             <h3 class="card-title">Cultural Fest 2024</h3>
                             <p class="card-text">A vibrant celebration of African American culture, featuring music, dance, and food.</p>
@@ -200,7 +202,7 @@
                         </div>
                     </div>
                     <!-- Event 3 -->
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-4 mb-4">
                         <div class="card">
                             <h3 class="card-title">Black Heritage Gala</h3>
                             <p class="card-text">An evening honoring the heritage and accomplishments of African American leaders.</p>
@@ -215,7 +217,7 @@
                 </div>
                 <div class="row">
                     <!-- Event 4 -->
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-4 mb-4">
                         <div class="card">
                             <h3 class="card-title">Theatre Night</h3>
                             <p class="card-text">Experience a night of drama and culture with performances from renowned African American playwrights.</p>
@@ -228,7 +230,7 @@
                         </div>
                     </div>
                     <!-- Event 5 -->
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-4 mb-4">
                         <div class="card">
                             <h3 class="card-title">Jazz Night</h3>
                             <p class="card-text">A tribute to African American Jazz icons, featuring live music and cultural performances.</p>
@@ -241,7 +243,7 @@
                         </div>
                     </div>
                     <!-- Event 6 -->
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-4 mb-4">
                         <div class="card">
                             <h3 class="card-title">Literary Fest</h3>
                             <p class="card-text">A celebration of African American literature, featuring readings, discussions, and book signings.</p>
