@@ -24,4 +24,11 @@ urlpatterns = [
     path('sitemap', views.sitemap, name='sitemap'),
     path('contact', views.contact, name='contact'),
     path('events', views.events, name='events'),
+    path('buy-now', views.buy_now, name='buy_now'),
+    path('verify-email', views.verify_email, name='verify_email'),
+    path('payment-success', views.payment_successful, name='payment_successful'),
+    path('payment-failure', views.payment_failure, name='payment_failure'),
+    path('ticket-verification-failure', views.ticket_verification_failure, name='ticket_verification_failure'),
+    path('payment-for-tickets', views.payment_for_tickets, name='payment_for_tickets'),
+    path('email_verification_success', views.email_verification_success, name='email_verification_success'),
 ]
