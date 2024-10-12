@@ -21,7 +21,7 @@ from pages import views
 from . import views
 
 urlpatterns = [
-    path('invoices', views.invoices, name='invoices'),  # Dashboard URL
+    path('invoices/', views.invoices, name='invoices'),  # Dashboard URL
     path('', views.index, name='index'),
     path('about', views.about, name='about'),
     path('sitemap', views.sitemap, name='sitemap'),
