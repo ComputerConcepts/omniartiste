@@ -189,11 +189,17 @@
                 <tbody>
                     {% for invoice in invoices %}
                     <tr>
-                        <td>{{ invoice.id }}</td>
+                        <td>{{ invoice.new_id }}</td>
                         <td>{{ invoice.date }}</td>
-                        <td>${{ invoice.amount }}</td>
-                        <td>{{ invoice.status }}</td>
-                    </tr>
+                        <td>${{ invoice.cost }}</td>
+                        <td>
+                            {% if invoice.verified %}
+                                Verified
+                            {% else %}
+                                Unverified
+                            {% endif %}
+                        </td>
+                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -204,3 +210,4 @@
     </div>
 </body>
 </html>
+
