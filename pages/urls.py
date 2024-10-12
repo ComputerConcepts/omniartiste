@@ -16,9 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import include, path
-from pages import views
-from . import views
+from django.urls import path
+from pages import views 
 
 urlpatterns = [
     path('invoices/', views.invoices, name='invoices'),  # Dashboard URL
