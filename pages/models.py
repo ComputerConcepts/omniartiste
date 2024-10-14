@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import uuid
 
 class Contact(models.Model):
     name = models.CharField(max_length=200)
@@ -25,12 +26,14 @@ class Ticket(models.Model):
     email = models.EmailField()
 
 class Invoice(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    tickets = models.ManyToManyField(Ticket, blank=True)
-    email = models.EmailField()
+    new_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # Now the primary key
+    tickets = models.ManyToManyField('Ticket', blank=True)
+    email = models.EmailField(max_length=254)
     cost = models.IntegerField()
     verified = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return f"Invoice {self.new_id} - {self.email}"
