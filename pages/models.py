@@ -1,6 +1,4 @@
 from django.db import models
-import uuid
-import uuid
 
 class Contact(models.Model):
     name = models.CharField(max_length=200)
