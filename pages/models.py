@@ -52,6 +52,6 @@ class TicketPurchase(models.Model):
         return f"{self.first_name} {self.last_name} - {self.tickets} Tickets"
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['-created_at'] 
 
     

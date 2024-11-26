@@ -5,14 +5,15 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode, force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_str
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from .models import TicketPurchase
 
-
 # Third-party imports
 import stripe
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Local app imports
 from .models import Contact, TicketPurchase, Invoice
