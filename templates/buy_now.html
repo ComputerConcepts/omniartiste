@@ -190,7 +190,7 @@
         <main>
             <div class="content-box">
                 <h2>Ticket Purchase</h2>
-                <form method="POST" action="{% url 'buy_now' %}" class="needs-validation" novalidate>
+                <form method="POST" class="needs-validation" novalidate>
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="firstName" class="form-label">First Name</label>

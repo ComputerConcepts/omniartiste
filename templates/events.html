@@ -175,7 +175,8 @@
         <main>
             <div class="content-box">
                 <div class="row">
-                    <!-- Event 1 -->
+                    {%if events%}
+                    {% for event in events %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <h3 class="card-title">Art and Soul Exhibition</h3>
@@ -183,78 +184,12 @@
                             <p><strong>Date:</strong> October 15, 2024</p>
                             <p class="price">$50</p>
                             <div class="btn-container">
-                                <a href="{% url 'buy_now' %}" class="cta-button">Buy Now</a>
-                                <a href="#" class="cta-button">Retrieve Tickets</a>
+                                <a href="{% url 'buy_now' event.id %}" class="cta-button">Buy Now</a>
                             </div>
                         </div>
                     </div>
-                    <!-- Event 2 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <h3 class="card-title">Cultural Fest 2024</h3>
-                            <p class="card-text">A vibrant celebration of African American culture, featuring music, dance, and food.</p>
-                            <p><strong>Date:</strong> November 10, 2024</p>
-                            <p class="price">$75</p>
-                            <div class="btn-container">
-                                <a href="{% url 'buy_now' %}" class="cta-button">Buy Now</a>
-                                <a href="#" class="cta-button">Retrieve Tickets</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event 3 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <h3 class="card-title">Black Heritage Gala</h3>
-                            <p class="card-text">An evening honoring the heritage and accomplishments of African American leaders.</p>
-                            <p><strong>Date:</strong> December 5, 2024</p>
-                            <p class="price">$100</p>
-                            <div class="btn-container">
-                                <a href="{% url 'buy_now' %}" class="cta-button">Buy Now</a>
-                                <a href="#" class="cta-button">Retrieve Tickets</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Event 4 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <h3 class="card-title">Theatre Night</h3>
-                            <p class="card-text">Experience a night of drama and culture with performances from renowned African American playwrights.</p>
-                            <p><strong>Date:</strong> January 15, 2025</p>
-                            <p class="price">$60</p>
-                            <div class="btn-container">
-                                <a href="{% url 'buy_now' %}" class="cta-button">Buy Now</a>
-                                <a href="#" class="cta-button">Retrieve Tickets</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event 5 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <h3 class="card-title">Jazz Night</h3>
-                            <p class="card-text">A tribute to African American Jazz icons, featuring live music and cultural performances.</p>
-                            <p><strong>Date:</strong> February 12, 2025</p>
-                            <p class="price">$85</p>
-                            <div class="btn-container">
-                                <a href="{% url 'buy_now' %}" class="cta-button">Buy Now</a>
-                                <a href="#" class="cta-button">Retrieve Tickets</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event 6 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <h3 class="card-title">Literary Fest</h3>
-                            <p class="card-text">A celebration of African American literature, featuring readings, discussions, and book signings.</p>
-                            <p><strong>Date:</strong> March 22, 2025</p>
-                            <p class="price">$40</p>
-                            <div class="btn-container">
-                                <a href="{% url 'buy_now' %}" class="cta-button">Buy Now</a>
-                                <a href="#" class="cta-button">Retrieve Tickets</a>
-                            </div>
-                        </div>
-                    </div>
+                    {%endfor%}
+                    {%endif%}
                 </div>
             </div>
         </main>
