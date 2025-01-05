@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Omni Artiste</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #D4AF37;
+            color: #000;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #000;
+            color: #D4AF37;
+            padding: 20px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            background-color: #D4AF37;
+        }
+
+        .company-name {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .invoice-details {
+            margin-bottom: 30px;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .invoice-table th {
+            background-color: #000;
+            color: #D4AF37;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #000;
+            color: #D4AF37;
+            padding: 12px 24px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .footer {
+            background-color: #000;
+            color: #D4AF37;
+            padding: 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            font-size: 14px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1 class="company-name">Omni Artiste</h1>
+        </div>
+
+        <div class="content">
+            <div class="invoice-details">
+                <p><strong>Invoice:</strong> {{invoice.id}}</p>
+                <p><strong>Date:</strong> {{invoice.date}}</p>
+            </div>
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{event.title}}</td>
+                        <td>{{invoice.numTickets}}</td>
+                        <td>${{event.cost}}</td>
+                        <td>${{invoice.cost}}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>Total</strong></td>
+                        <td><strong>${{invoice.cost}}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="footer">
+            <p>Thank you for your business!</p>
+            <p>Contact us: support@omniartiste.com</p>
+        </div>
+    </div>
+</body>
+</html>

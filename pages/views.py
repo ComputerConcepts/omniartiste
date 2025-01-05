@@ -6,41 +6,47 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_str
+from django.utils.encoding import force_bytes
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-from .models import Invoice, Events, Contact
+from .models import Invoice, Events, Contact, Ticket
 import stripe
 from django.core.mail import EmailMessage
 import random
-stripe.api_key = settings.STRIPE_SECRET_KEY
 import uuid
 
+# Stripe API key setup
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+# Views
 def index(request):
     return render(request, "index.html")
 
+
 def about(request):
     return render(request, "about.html")
+
 
 def contact(request):
     if request.method == "POST":
         name = request.POST["name"]
         email = request.POST["email"]
         message = request.POST["message"]
-        Contact.objects.create(name = name, email = email, message = message)
+        Contact.objects.create(name=name, email=email, message=message)
     return render(request, "contact.html")
 
+
 def sitemap(request):
-    return HttpResponse(open('templates/sitemap.xml').read(), content_type='text/xml')
+    with open('templates/sitemap.xml') as sitemap_file:
+        return HttpResponse(sitemap_file.read(), content_type='text/xml')
+
 
 def events(request):
     events = Events.objects.all()
-    return render(request, "events.html", context={"events":events})
+    return render(request, "events.html", context={"events": events})
+
 
 def create_payment_intent(amount, currency='usd', metadata=None):
-    """
-    Create a Stripe PaymentIntent
-    """
     try:
         return stripe.PaymentIntent.create(
             amount=amount,  # Amount in cents
@@ -49,59 +55,73 @@ def create_payment_intent(amount, currency='usd', metadata=None):
             metadata=metadata or {},
         )
     except stripe.error.StripeError as e:
-        # Log or handle the Stripe error
         print(f"Stripe error: {e}")
         raise e
 
+
 def buy_now(request, event_id):
     if request.method == 'POST':
-        # Collect user details and redirect to payment page
         first_name = request.POST.get('firstName')
         last_name = request.POST.get('lastName')
         email = request.POST.get('email')
         tickets = int(request.POST.get('tickets', 0))
 
-        # Validate ticket count
         if tickets <= 0:
             return render(request, 'buy_now.html', {'error': 'Invalid number of tickets.'})
 
-        # Save the user data in session (temporary storage)
+        # Generate and send OTP
+        otp = str(random.randint(100000, 999999))  # Generate a 6-digit OTP
+        subject = 'Your Email Verification Code'
+        message = f'Dear {first_name},\n\nYour OTP for email verification is: {otp}\n\nThank you for purchasing tickets!'
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+
+        # Save user details and OTP in the session
+        request.session['otp'] = otp
         request.session['first_name'] = first_name
         request.session['last_name'] = last_name
         request.session['email'] = email
         request.session['numTickets'] = tickets
         request.session['event_id'] = str(event_id)
 
-        # Redirect to the payment page
-        return redirect('payment_for_tickets')
+        # Redirect to the OTP verification page
+        return redirect('verify_email')
 
-    # For GET requests, render the ticket purchase form
     return render(request, 'buy_now.html')
+
 
 def payment_successful(request):
     payment_intent_id = request.session.get('payment_intent_id')
-
     if not payment_intent_id:
-        print("Error: PaymentIntent ID is missing from the session.")
         return render(request, 'payment_failure.html', {'error': 'Payment intent not found.'})
 
     try:
         payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
         if payment_intent['status'] == 'succeeded':
-            ticket_purchase = Invoice.objects.get(payment_intent_id=payment_intent_id)
-            ticket_purchase.paid = True
-            ticket_purchase.save()
-            print("Database Updated for PaymentIntent:", ticket_purchase)
-            return render(request, 'payment_successful.html', {'purchase': ticket_purchase})
+            invoice = Invoice.objects.get(payment_intent_id=payment_intent_id)
+            invoice.paid = True
+            invoice.save()
+
+            return render(request, 'payment_successful.html', {'purchase': invoice})
         else:
-            print(f"Payment status not succeeded: {payment_intent['status']}")
             return render(request, 'payment_failure.html', {'error': f'Payment status: {payment_intent["status"]}'})
-    except stripe.error.StripeError as e:
-        print(f"Stripe API error: {e}")
+    except (stripe.error.StripeError, Invoice.DoesNotExist) as e:
         return render(request, 'payment_failure.html', {'error': str(e)})
-    except Invoice.DoesNotExist:
-        print(f"No matching TicketPurchase found for PaymentIntent ID: {payment_intent_id}")
-        return render(request, 'payment_failure.html', {'error': 'Ticket purchase not found.'})
+
+
+def verify_email(request):
+    if request.method == 'POST':
+        user_otp = request.POST.get('verification_code')
+        session_otp = request.session.get('otp')
+
+        if user_otp == session_otp:
+            # OTP verified, clear the session and proceed
+            del request.session['otp']  # Remove OTP after successful verification
+            return redirect('payment_for_tickets')
+        else:
+            # OTP mismatch
+            return render(request, 'verify_email.html', {'error': 'Invalid OTP. Please try again.'})
+
+    return render(request, 'verify_email.html')
 
 def email_verification_success(request):
     return render(request, 'email_verification_success.html')
@@ -114,18 +134,64 @@ def ticket_verification_failure(request):
     }
     return render(request, 'ticket_verification_failure.html', context)
 
+def payment_for_tickets(request):
+    numtickets = request.session.get('numTickets', 1)
+    email = request.session.get('email', 'anonymous@example.com')
+    event_id = request.session.get('event_id')
+    eventNew = Events.objects.get(id = event_id)
+    ticket_price = eventNew.cost
+    total_amount = numtickets * ticket_price * 100  # Convert to cents
+
+    try:
+        payment_intent = create_payment_intent(
+            amount=total_amount,
+            currency='usd',
+            metadata={'email': email, 'tickets': numtickets}
+        )
+
+        request.session['payment_intent_id'] = payment_intent['id']
+
+        invoice = Invoice.objects.create(
+            first_name=request.session.get('first_name', 'Unknown'),
+            last_name=request.session.get('last_name', 'Unknown'),
+            email=email,
+            payment_intent_id=payment_intent['id'],
+            cost = total_amount/100,
+            numTickets = numtickets,
+            event = str(event_id)
+        )
+                # Generate and assign tickets to the invoice
+        for _ in range(numtickets):
+            ticket = Ticket.objects.create(
+                event=eventNew,
+                email=email,
+            )
+            invoice.tickets.add(ticket)
+
+        return render(request, 'payment_for_tickets.html', {
+            'client_secret': payment_intent['client_secret'],
+            'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
+            'invoice':invoice,
+        })
+    except stripe.error.StripeError as e:
+        return render(request, 'payment_failure.html', {'error': str(e)})
+
+
+def payment_failure(request):
+    return render(request, 'payment_failure.html')
+
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user:
             login(request, user)
-            return redirect('index')  # Redirect to homepage after successful login
-        else:
-            # If authentication fails, display an error message
-            return render(request, "login.html", {"error": "Invalid username or password"})
+            return redirect('index')
+        return render(request, "login.html", {"error": "Invalid username or password"})
     return render(request, "login.html")
+
 
 def signup(request):
     if request.method == "POST":
@@ -133,16 +199,15 @@ def signup(request):
         email = request.POST['email']
         password = request.POST['password']
         user = User.objects.create_user(username=username, email=email, password=password)
-        login(request, user)  # Log the user in after signing up
+        login(request, user)
         return redirect('index')
     return render(request, "signup.html")
 
+
 def invoices(request):
-    # Retrieve all invoices from the Invoice model
     invoices = Invoice.objects.all()
-    
-    # Pass the invoices to the template
     return render(request, 'invoices.html', {'invoices': invoices})
+
 
 def forgot_password(request):
     if request.method == "POST":

@@ -130,4 +130,13 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.privateemail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'support@omniartiste.org'  # Replace with your Namecheap Private Email address
+EMAIL_HOST_PASSWORD = 'OmniBrian@123'      # Replace with your Namecheap Private Email password
+DEFAULT_FROM_EMAIL = 'support@omniartiste.org'  # Replace with your Namecheap Private Email address
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STRIPE_SECRET_KEY = 'sk_test_51MsYaVIj9JFN5Py8IXRrKU4m54jcVcdYpOaOMue8vIViYaLgyu9lQmmpBERJ0kgLjcSiUdkb4iMx7FFKaLiHAGyt00RFmLkIEf'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51MsYaVIj9JFN5Py8ttbhr1SvNPFQxIJs31AjnD7QJmbc0FbAahnkSjlvIENI4BSZJ4JRNBoBYdg0FeaGHeBN5ugG00NQfe7HzC'

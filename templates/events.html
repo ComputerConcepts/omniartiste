@@ -179,9 +179,9 @@
                     {% for event in events %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <h3 class="card-title">Art and Soul Exhibition</h3>
-                            <p class="card-text">Join us for a soulful night celebrating African American artistry with live performances and exhibitions.</p>
-                            <p><strong>Date:</strong> October 15, 2024</p>
+                            <h3 class="card-title">{{event.title}}</h3>
+                            <p class="card-text">{{event.description}}</p>
+                            <p><strong>Date:</strong>{{event.eventdate}}</p>
                             <p class="price">$50</p>
                             <div class="btn-container">
                                 <a href="{% url 'buy_now' event.id %}" class="cta-button">Buy Now</a>

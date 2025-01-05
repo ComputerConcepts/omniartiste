@@ -69,7 +69,7 @@
     <div class="container">
         <div class="content-box">
             <h2>Payment for Tickets</h2>
-            <p>Total Amount: ${{ total_amount|floatformat:2 }}</p>
+            <p>Total Amount: ${{ invoice.cost|floatformat:2 }}</p>
 
             <form id="payment-form" method="post">
                 {% csrf_token %}
