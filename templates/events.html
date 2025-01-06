@@ -182,7 +182,7 @@
                             <h3 class="card-title">{{event.title}}</h3>
                             <p class="card-text">{{event.description}}</p>
                             <p><strong>Date:</strong>{{event.eventdate}}</p>
-                            <p class="price">$50</p>
+                            <p class="price">${{event.cost}}</p>
                             <div class="btn-container">
                                 <a href="{% url 'buy_now' event.id %}" class="cta-button">Buy Now</a>
                             </div>
