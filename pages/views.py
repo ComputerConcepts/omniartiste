@@ -14,6 +14,8 @@ import stripe
 from django.core.mail import EmailMessage
 import random
 import uuid
+from django.core.files.storage import FileSystemStorage
+
 
 # Stripe API key setup
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -222,3 +224,25 @@ def forgot_password(request):
     else:
         form = PasswordResetForm()
     return render(request, "forgot_password.html", {'form': form})
+
+def job_posting(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        instrument = request.POST.get("instrument")
+        experience = request.POST.get("experience")
+        resume = request.FILES.get("resume")
+
+        # Save the uploaded resume file (Optional: Save in DB or process further)
+        if resume:
+            fs = FileSystemStorage()
+            filename = fs.save(resume.name, resume)
+            resume_url = fs.url(filename)
+
+            # Example: Print details or save to the database
+            print(f"Application Received: {name}, {email}, {phone}, {instrument}, {experience}, {resume_url}")
+
+        return render(request, "jobposting.html", {"message": "Application submitted successfully!"})
+
+    return render(request, "jobposting.html")
