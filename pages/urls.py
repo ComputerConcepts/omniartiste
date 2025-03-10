@@ -33,6 +33,7 @@ urlpatterns = [
     path('ticket-verification-failure', views.ticket_verification_failure, name='ticket_verification_failure'),
     path('payment-for-tickets', views.payment_for_tickets, name='payment_for_tickets'),
     path('email_verification_success', views.email_verification_success, name='email_verification_success'),
+    path('apply-for-band/', views.job_posting, name='job_posting'), # Job posting 
 
     path('login', views.login_view, name='login'),
     path('signup', views.signup, name='signup'),
