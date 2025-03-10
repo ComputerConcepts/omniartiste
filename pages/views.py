@@ -21,10 +21,8 @@ from django.core.files.storage import FileSystemStorage
 # Stripe API key setup
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-# Views
 def index(request):
     return render(request, "index.html")
-
 
 def about(request):
     return render(request, "about.html")
@@ -34,14 +32,14 @@ def jobs(request):
     return render(request, "jobs.html",{"jobs":jobs})
 
 def jobDetail(request, job_id):
-    job = Jobs.objects.get(id=job_id)  # Ensure job exists, otherwise return 404
+    job = Jobs.objects.get(id=job_id)
     if request.method == "POST":
-        form = ApplicantForm(request.POST, request.FILES)  # Handle file uploads
+        form = ApplicantForm(request.POST, request.FILES)
         if form.is_valid():
-            applicant = form.save(commit=False)  # Don't save immediately
-            applicant.job = job  # Associate the application with the job
-            applicant.save()  # Now save the application
-            return redirect('jobs')  # Redirect after successful submission
+            applicant = form.save(commit=False)
+            applicant.job = job
+            applicant.save()
+            return redirect('jobs')
     else:
         form = ApplicantForm()
     return render(request, "jobDetail.html", {"job": job, "form": form})
