@@ -9,8 +9,9 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-from .models import Invoice, Events, Contact, Ticket
+from .models import Invoice, Events, Contact, Ticket, Jobs
 import stripe
+from .forms import ApplicantForm
 from django.core.mail import EmailMessage
 import random
 import uuid
@@ -28,6 +29,22 @@ def index(request):
 def about(request):
     return render(request, "about.html")
 
+def jobs(request):
+    jobs = Jobs.objects.all()
+    return render(request, "jobs.html",{"jobs":jobs})
+
+def jobDetail(request, job_id):
+    job = Jobs.objects.get(id=job_id)  # Ensure job exists, otherwise return 404
+    if request.method == "POST":
+        form = ApplicantForm(request.POST, request.FILES)  # Handle file uploads
+        if form.is_valid():
+            applicant = form.save(commit=False)  # Don't save immediately
+            applicant.job = job  # Associate the application with the job
+            applicant.save()  # Now save the application
+            return redirect('jobs')  # Redirect after successful submission
+    else:
+        form = ApplicantForm()
+    return render(request, "jobDetail.html", {"job": job, "form": form})
 
 def contact(request):
     if request.method == "POST":
@@ -224,25 +241,3 @@ def forgot_password(request):
     else:
         form = PasswordResetForm()
     return render(request, "forgot_password.html", {'form': form})
-
-def job_posting(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        instrument = request.POST.get("instrument")
-        experience = request.POST.get("experience")
-        resume = request.FILES.get("resume")
-
-        # Save the uploaded resume file (Optional: Save in DB or process further)
-        if resume:
-            fs = FileSystemStorage()
-            filename = fs.save(resume.name, resume)
-            resume_url = fs.url(filename)
-
-            # Example: Print details or save to the database
-            print(f"Application Received: {name}, {email}, {phone}, {instrument}, {experience}, {resume_url}")
-
-        return render(request, "jobposting.html", {"message": "Application submitted successfully!"})
-
-    return render(request, "jobposting.html")

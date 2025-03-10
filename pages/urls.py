@@ -33,14 +33,12 @@ urlpatterns = [
     path('ticket-verification-failure', views.ticket_verification_failure, name='ticket_verification_failure'),
     path('payment-for-tickets', views.payment_for_tickets, name='payment_for_tickets'),
     path('email_verification_success', views.email_verification_success, name='email_verification_success'),
-    path('apply-for-band/', views.job_posting, name='job_posting'), # Job posting 
-
+    path('jobs', views.jobs, name='jobs'),
+    path('jobs/<uuid:job_id>', views.jobDetail, name='jobDetail'),
     path('login', views.login_view, name='login'),
     path('signup', views.signup, name='signup'),
     path('logout', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('forgot-password/', views.forgot_password, name='forgot_password'),
-    
-    # Django's built-in password reset views
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='forgot_password.html'), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),

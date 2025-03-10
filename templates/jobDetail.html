@@ -1,0 +1,422 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Detail - Omni Artiste</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: #D4AF37; /* Golden background */
+            color: #000;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Added to ensure the image doesn't overflow the circle */
+        }
+
+        .logo img {
+            width: 100%; /* Make the image fill the circle */
+            height: 100%;
+            object-fit: cover; /* Ensure the image covers the entire area */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #000;
+            color: #D4AF37;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #D4AF37;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FFF;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            width: 80%;
+            max-width: 1200px;
+            text-align: left;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #000;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h3 {
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tribal-decoration {
+            width: 100%;
+            height: 100px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,50 Q30,30 50,50 T90,50' fill='none' stroke='%23D4AF37' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='5' fill='%23000'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-size: auto 100%;
+            margin: 20px 0;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .job-title-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .job-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .job-meta-item {
+            background-color: rgba(212, 175, 55, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .job-apply {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 250px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .cta-button, .job-apply {
+            box-sizing: border-box;
+        }
+        .job-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #D4AF37;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: rgba(212, 175, 55, 0.2);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 15px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .cta-button {
+            background-color: #000;
+            color: #D4AF37;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .cta-button:hover {
+            background-color: #333;
+        }
+
+        .related-jobs {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .related-job-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .related-job-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .application-form {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .application-form label {
+            font-weight: bold;
+        }
+
+        .application-form input,
+        .application-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .application-form button {
+            background-color: #000;
+            color: #D4AF37;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .application-form button:hover {
+            background-color: #333;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .job-header {
+                flex-direction: column;
+            }
+            .job-apply {
+                width: 100%;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="{% static 'images/logo.jpg' %}" alt="Omni Artiste Logo">
+            </div>
+            <h1>Omni Artiste</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'events' %}">Events</a></li>
+                <li><a href="{% url 'jobs' %}">Careers</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="content">
+                <a href="{% url 'jobs' %}" class="back-link">← Back to All Jobs</a>
+                
+                <div class="job-header">
+                    <div class="job-title-section">
+                        <h2 class="job-title">{{ job.title }}</h2>
+                        <div class="job-meta">
+                            <div class="job-meta-item"><i class="fas fa-map-marker-alt"></i>&nbsp; {{ job.locations }}</div>
+                            <div class="job-meta-item"><i class="fas fa-calendar-alt"></i>&nbsp; Posted on {{ job.date }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="job-apply">
+                        <h3>Interested in this role?</h3>
+                        <p>Join our team and help bring art to life!</p>
+                        <a href="#apply-now" class="cta-button">Apply Now</a>
+                    </div>
+                </div>
+                
+                <div class="tribal-decoration"></div>
+                
+                <div class="job-section">
+                    <div class="section-title">About the Role</div>
+                    <p>{{ job.description }}</p>
+                </div>
+                
+                <div class="job-section">
+                    <div class="section-title">Responsibilities</div>
+                        <p>{{job.responsibilities}}</p>
+                </div>
+                
+                <div class="job-section">
+                    <div class="section-title">Requirements</div>
+                        <p>{{ job.requirements }}</p>
+                </div>
+                
+                <div class="job-section">
+                    <div class="section-title">Benefits</div>
+                        <p>{{ job.benefits }}</p>
+                </div>
+                
+                <div class="job-section">
+                    <div class="section-title">Skills & Expertise</div>
+                    <div class="tags">
+                        <span class="tag">{{ job.skills }}</span>
+                    </div>
+                </div>
+                
+                <div class="job-section" id="apply-now">
+                    <div class="section-title">Apply for this Position</div>
+                    <form class="application-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    
+                        <label for="{{ form.name.id_for_label }}">Full Name:</label>
+                        {{ form.name }}
+                    
+                        <label for="{{ form.email.id_for_label }}">Email:</label>
+                        {{ form.email }}
+                    
+                        <label for="{{ form.phonenumber.id_for_label }}">Phone Number:</label>
+                        {{ form.phonenumber }}
+                    
+                        <label for="{{ form.resume.id_for_label }}">Upload Resume (PDF):</label>
+                        {{ form.resume }}
+                    
+                        <label for="{{ form.portfolio.id_for_label }}">Portfolio Link (Optional):</label>
+                        {{ form.portfolio }}
+                    
+                        <label for="{{ form.coverletter.id_for_label }}">Cover Letter:</label>
+                        {{ form.coverletter }}
+                    
+                        <button type="submit" class="cta-button">Submit Application</button>
+                    </form>                    
+                </div>
+                
+                {% if related_jobs %}
+                <div class="related-jobs">
+                    <h3>Similar Positions</h3>
+                    {% for related_job in related_jobs %}
+                    <div class="related-job-item">
+                        <h4>{{ related_job.title }}</h4>
+                        <div class="job-meta">
+                            <span>{{ related_job.location }}</span> | 
+                            <span>{{ related_job.type }}</span>
+                        </div>
+                        <a href="{% url 'job_detail' related_job.id %}" class="back-link">View Details</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

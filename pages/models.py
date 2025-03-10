@@ -6,6 +6,26 @@ class Contact(models.Model):
     email = models.EmailField()
     message = models.TextField()
 
+class Jobs(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    benefits  = models.TextField()
+    requirements = models.TextField()
+    date = models.DateField(auto_created=True)
+    locations = models.CharField(max_length=200)
+    skills = models.CharField(max_length=100)
+
+class Applicant(models.Model):
+    job = models.ForeignKey(Jobs, on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phonenumber = models.CharField(max_length=10)
+    resume = models.FileField(upload_to='resumes/')
+    portfolio = models.CharField(max_length=300, blank=True)
+    coverletter = models.TextField()
+
 class Events(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100)

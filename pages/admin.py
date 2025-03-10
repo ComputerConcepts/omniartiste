@@ -1,10 +1,10 @@
 from django.contrib import admin
-from pages.models import Contact, Events, Ticket, Invoice
+from pages.models import Contact, Events, Ticket, Invoice, Applicant
 from django.db.models import Func, UUIDField
 import uuid
 
 from django.contrib import admin
-from .models import Contact, Events, Ticket, Invoice
+from .models import Contact, Events, Ticket, Invoice, Jobs
 
 class TicketInline(admin.TabularInline):
     model = Invoice.tickets.through  # Through model for ManyToManyField
@@ -23,4 +23,5 @@ admin.site.register(Events)
 admin.site.register(Invoice, InvoiceAdmin)
 admin.site.register(Ticket)
 admin.site.register(Contact)
-
+admin.site.register(Jobs)
+admin.site.register(Applicant)
