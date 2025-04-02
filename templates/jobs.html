@@ -135,7 +135,9 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 20px;
+            box-sizing: border-box; /*Ensures padding is included in the width*/
         }
+
 
         .job-card {
             background-color: #f0f0f0;
@@ -198,16 +200,65 @@
         }
 
         @media (max-width: 768px) {
+            /* Ensure the content width is 95% and has smaller padding on mobile */
             .content {
                 width: 95%;
-                padding: 20px;
+                padding: 15px; /* Reduced padding for mobile */
             }
-            
+
+            /* Make job-meta items stack vertically */
             .job-meta {
                 flex-direction: column;
-                gap: 5px;
+                gap: 10px; /* Reduced gap for a better mobile view */
+            }
+
+            /* Ensure the search box fills the width */
+            .search-box {
+                width: 100%;
+                padding: 12px; /* Slightly increase padding for better touch interaction */
+                font-size: 1em; /* Adjust font size for readability */
+            }
+
+            /* Adjust the job title font size */
+            .job-title {
+                font-size: 1.3em; /* Slightly smaller job title font size */
+            }
+
+            /* Adjust padding and margin of job-card for mobile devices */
+            .job-card {
+                padding: 15px;
+                margin-bottom: 15px; /* Reduced margin for spacing */
+            }
+
+            /* Make CTA button full-width */
+            .cta-button {
+                width: 100%;
+                padding: 12px;
+                font-size: 1.1em;
+            }
+
+            /* Reduce text size for mobile devices */
+            p, .job-description {
+                font-size: 0.95em;
+            }
+
+            /* Adjust font size of headings for better mobile readability */
+            h1, h2 {
+                font-size: 1.8em; /* Slightly smaller heading size */
+            }
+
+            h3 {
+                font-size: 1.2em; /* Adjust h3 for better alignment */
+            }
+
+            /* Optional: Reduce the size of logo for mobile */
+            .logo {
+                width: 80px;
+                height: 80px;
             }
         }
+
+
     </style>
 </head>
 <body>
