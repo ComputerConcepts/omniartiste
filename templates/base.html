@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omni Artiste</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: #D4AF37;
+            color: #000;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #000;
+            color: #D4AF37;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            overflow: hidden;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            margin: 0;
+        }
+        nav ul li {
+            margin: 12px 0;
+        }
+        nav ul li a {
+            color: #D4AF37 !important;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.4rem !important;  /* Force font size */
+            padding: 12px 20px;
+            display: block;
+        }
+        
+        .main-layout {
+            display: flex;
+            flex-grow: 1;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #000;
+            color: #D4AF37;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+        color: #D4AF37;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.4rem; 
+        display: block;
+        padding: 12px 0;
+    }
+        .sidebar ul li a:hover {
+            color: #fff;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .inner-content {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #000;
+            color: #D4AF37;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+        }
+        .cta-button:hover {
+            background-color: #D4AF37;
+            color: #000;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="{% static 'images/logo.jpg' %}" alt="Logo">
+            </div>
+            <h1>Omni Artiste</h1>
+        </header>
+
+        {% if request.user.is_authenticated and request.path|slice:":14" == "/admin-portal/" %}
+            <div class="main-layout">
+                <aside class="sidebar">
+                    <h2>Admin</h2>
+                    <ul>
+                        <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                        <li><a href="{% url 'admin_jobs' %}">Jobs</a></li>
+                        <li><a href="{% url 'admin_events' %}">Events</a></li>
+                        <li><a href="{% url 'admin_invoices' %}">Invoices</a></li>
+                        <li><a href="{% url 'admin_logout' %}">Logout</a></li>
+                    </ul>
+                </aside>
+                <main class="content">
+                    <div class="inner-content">
+                        {% block content %}{% endblock %}
+                    </div>
+                </main>
+            </div>
+        {% else %}
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'events' %}">Events</a></li>
+                    <li><a href="{% url 'jobs' %}">Careers</a></li>
+                </ul>
+            </nav>
+            <main class="content">
+                <div class="inner-content">
+                </div>
+            </main>
+        {% endif %}
+    </div>
+</body>
+</html>
